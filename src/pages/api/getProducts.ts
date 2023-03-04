@@ -1,4 +1,4 @@
-import { setNewUser } from './../../database/controllers/UserController';
+import { getProducts } from './../../database/controllers/ProductController';
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
@@ -10,8 +10,8 @@ export default async function handler( req: NextApiRequest, res: NextApiResponse
   const method = req.method
   
   switch (method) {
-    case 'POST':
-      const response = await setNewUser(req.body)
+    case 'GET':
+      const response = await getProducts()
         .then(data => {
           console.log(data)
           res.status(200).json(data)

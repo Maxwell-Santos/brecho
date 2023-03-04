@@ -6,6 +6,7 @@ interface setNewUserProps {
   pass: string,
 
 }
+
 //create
 export const setNewUser = async (queryUser: setNewUserProps) => {
   if(!database.connect()) return console.log("erro na conexão com o bd")
