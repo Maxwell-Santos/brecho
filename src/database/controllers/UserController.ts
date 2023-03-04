@@ -3,8 +3,7 @@ import database from "../database"
 
 interface setNewUserProps {
   username: string,
-  pass: string,
-
+  pass: string
 }
 
 //create

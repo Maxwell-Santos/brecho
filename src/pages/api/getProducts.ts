@@ -6,7 +6,7 @@ type Data = {
   name: string
 }
 
-export default async function handler( req: NextApiRequest, res: NextApiResponse<Data>){
+export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>){
   const method = req.method
   
   switch (method) {
@@ -22,5 +22,4 @@ export default async function handler( req: NextApiRequest, res: NextApiResponse
     default:
       break;
   }
-
 }
