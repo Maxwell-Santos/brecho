@@ -6,4 +6,16 @@
   html {
     @apply font-primary
   }
+  img {
+    @apply w-full h-full object-cover
+  }
+}
+
+@layer components{
+  .container-form {
+    @apply max-w-lg mx-auto border mt-auto
+  }
+  .container-form input {
+    @apply w-full border mb-4 mt-2 p-2
+  }
 }

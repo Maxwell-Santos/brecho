@@ -7,6 +7,7 @@ export default function Account() {
     <div className=" mx-auto h-screen grid place-items-center">
       {
         status == 'authenticated' && (
+          
           <div className="">
             <h1>Bem vindo, {session.user?.email}</h1>
             <button onClick={() => signOut()}>Sair</button>

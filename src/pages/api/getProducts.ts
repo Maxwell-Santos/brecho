@@ -1,25 +1,15 @@
-import { getProducts } from './../../database/controllers/ProductController';
-
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import { getProducts } from './../../database/controllers/productController';
 import type { NextApiRequest, NextApiResponse } from 'next'
-type Data = {
-  name: string
-}
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>){
-  const method = req.method
-  
-  switch (method) {
-    case 'GET':
-      const response = await getProducts()
-        .then(data => {
-          console.log(data)
-          res.status(200).json(data)
-        })
-        .catch(err => console.error(err))
-      break;
+//GET
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 
-    default:
-      break;
+  try {
+    const response = await getProducts()
+    res.status(200).json(response)
+
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({message: error})
   }
 }
