@@ -6,6 +6,9 @@
   html {
     @apply font-primary
   }
+  body {
+    @apply bg-primary text-gray-700
+  }
   img {
     @apply w-full h-full object-cover
   }
@@ -13,9 +16,22 @@
 
 @layer components{
   .container-form {
-    @apply max-w-lg mx-auto border mt-auto
+    @apply w-full max-w-4xl mx-auto mt-10
   }
-  .container-form input {
-    @apply w-full border mb-4 mt-2 p-2
+  .container-form input, textarea {
+    @apply w-full border mb-4 mt-2 p-2 resize-none rounded-md
+  }
+
+  #dashboard {
+    @apply bg-dashboard
+  }
+  #product-card{
+    @apply bg-product-card
+  }
+  .button-primary-style {
+    @apply p-3 px-9 flex-1 border-2 border-[#92B4EC] hover:bg-transparent hover:text-gray-800 transition-all duration-300 bg-btn-primary text-white text-lg uppercase
+  }
+  .plus-less-btn{
+    @apply bg-plus-less rounded-md px-4 flex items-center justify-center text-white
   }
 }

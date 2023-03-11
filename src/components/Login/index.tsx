@@ -3,14 +3,14 @@ import Image from "next/image"
 
 export function LoginForm() {
 
-  const loginUser = async () => {
-    await signIn()
-  }
-
   return (
-    <button
-      className="p-3 relative rounded-full flex items-center justify-between shadow-lg hover:shadow-sm transition-all duration-300 bg-white"
-      onClick={() => loginUser()}
+    <a
+    href={'/api/auth/signin'}
+      className="p-3 pr-4 relative rounded-full flex items-center justify-between shadow-lg hover:shadow-sm transition-all duration-300 bg-white"
+      onClick={(e) => {
+        e.preventDefault()
+        signIn()
+      }}
     >
       <div className="relative w-10 h-10 mr-3">
         <Image
@@ -22,6 +22,6 @@ export function LoginForm() {
       </div>
       <span>entrar com o Google</span>
 
-    </button>
+    </a>
   )
 }

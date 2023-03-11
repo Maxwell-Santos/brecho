@@ -1,6 +1,3 @@
-import { Dashboard } from '@/components/Dashboard';
-import { FormNewProduct } from '@/components/FormNewProduct';
-import { Products } from '@/components/Products';
 import { getSession } from 'next-auth/react';
 import Head from 'next/head';
 
@@ -13,11 +10,6 @@ export default function Home() {
         <meta name="description" content="E-commerce brechó online " />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <div className='min-h-screen w-full'>
-        <Dashboard />
-        <Products />
-        <FormNewProduct />
-      </div>
     </>
   )
 }
@@ -34,6 +26,10 @@ export async function getServerSideProps(context: any) {
   }
 
   return {
+    redirect: {
+      permanent: false,
+      destination: "/products"
+    },
     props: {session},
   }
 }
