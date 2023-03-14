@@ -11,16 +11,16 @@ export function Product({ name, description, price, quant, _id }: ProductProps) 
       as={`/products/${productId}`}
     >
       <div
-      id="product-card"
-        className="w-full h-[320px] p-4 rounded-md shadow-sm m-3 flex flex-col justify-between hover:shadow-sm transition-all"
+        id="product-card"
+        className="w-full h-[360px] max-w-[330px] m-3 flex flex-col"
       >
 
-        <h3 className="font-bold uppercase text-center">{name}</h3>
-        <p>{description}</p>
+        <div className="w-full h-full bg-gray-200">
+        </div>
 
-        <div>
-          <span className="text-lg">R${price}</span>
-          {/* <span className="block mt-auto">estoque:{quant}</span> */}
+        <div className="bg-primary flex justify-between pt-2">
+          <h3 className="text-title font-semibold uppercase text-center">{name}</h3>
+          <span className="text-md text">{price}</span>
         </div>
 
       </div>

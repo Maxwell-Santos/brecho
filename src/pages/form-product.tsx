@@ -1,4 +1,5 @@
 import { Dashboard } from "@/components/Dashboard";
+import { Footer } from "@/components/Footer";
 import { FormNewProduct } from "@/components/FormNewProduct";
 import Head from "next/head";
 
@@ -13,6 +14,8 @@ export default function FormProduct() {
       <section>
         <FormNewProduct />
       </section>
+
+      <Footer />
     </>
   )
 }

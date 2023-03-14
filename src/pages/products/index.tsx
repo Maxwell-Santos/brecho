@@ -1,4 +1,5 @@
 import { Dashboard } from "@/components/Dashboard";
+import { Footer } from "@/components/Footer";
 import { Product } from "@/components/Product";
 import ProductProps from "@/interfaces/ProductProps";
 import Head from "next/head";
@@ -12,7 +13,7 @@ export default function ProductsPage(props: any) {
 
   const filterProduct = useMemo(() => {
     return productsParsed.filter(product => {
-      return product.name.toLowerCase().includes(query.toLowerCase())
+      return product.name.trim().toLowerCase().includes(query.toLowerCase())
     })
   }, [query])
 
@@ -22,17 +23,16 @@ export default function ProductsPage(props: any) {
         <title>Produtos</title>
       </Head>
       <Dashboard />
-
-      <input
-        className="border-b border-[#34BE82] rounded-sm p-2 mx-auto block mt-4 outline-none text-3xl uppercase font-extralight placeholder:lowercase placeholder:text-xl bg-transparent"
-        type="text"
-        name="search"
-        id="search"
-        value={query}
-        placeholder="ex: camisa"
-        spellCheck="false"
-        onChange={e => setQuery(e.target.value)}
-      />
+        <input
+          className="border-b border-[#497174] mx-auto rounded-sm p-2 block mt-4 outline-none text-2xl uppercase font-extralight placeholder:lowercase placeholder:text-xl bg-transparent"
+          type="text"
+          name="search"
+          id="search"
+          value={query}
+          placeholder="ex: camisa"
+          spellCheck="false"
+          onChange={e => setQuery(e.target.value)}
+        />
       <section className="p-5 grid gap-3 md:grid-cols-3 lg:grid-cols-4 place-content-center">
         {
           productsParsed ? (
@@ -51,9 +51,9 @@ export default function ProductsPage(props: any) {
                   ))
                 ) : (
                   <>
-                  <div className="w-full text-center">
-                    <p>Não foi encontrado o seu produto</p>
-                  </div>
+                    <div className="w-full text-center">
+                      <p>Não foi encontrado o seu produto</p>
+                    </div>
                   </>
                 )
               }
@@ -61,6 +61,8 @@ export default function ProductsPage(props: any) {
           ) : <span>carregando</span>
         }
       </section>
+
+      <Footer />
     </>
   )
 }

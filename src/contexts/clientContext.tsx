@@ -1,7 +1,7 @@
 import ProductProps from "@/interfaces/ProductProps";
-import { createContext, ReactNode, useState } from "react";
+import { createContext, ReactNode, useMemo, useState } from "react";
 
-const ClientContext = createContext({})
+export const ClientContext = createContext<any>({})
 
 type typeChildren = {
   children: ReactNode
@@ -9,10 +9,17 @@ type typeChildren = {
 
 export function ClientContextProvider({children}: typeChildren){
   const [cart, setCart] = useState<ProductProps[]>([])
+  const [total, setTotal] = useState<number>()
 
   const addProductToCard = (newProduct: ProductProps) => {
-    //ainda falta atualizar a quantidade no estoque do produto
-    setCart(products => [...products, newProduct])
+
+    const productHasAdd = cart.some(item => item._id === newProduct._id)
+
+    if(!productHasAdd) {
+      setCart(products => [...products, newProduct])
+      console.log(cart)
+    }
+    else return false
   }
 
   const removeProductFromCard = (productId: string) => {
@@ -20,7 +27,13 @@ export function ClientContextProvider({children}: typeChildren){
 
     cart.map((product, index) => {
       if(product._id == productId){
-        cart.splice(index, 1)
+        const remove = confirm(`Tirar ${product.name} do carrinho ?`)
+      
+        if(remove) {
+          cart.splice(index, 1)
+          updateTotal()
+        }
+        else return
       }
     })
   }
@@ -30,13 +43,24 @@ export function ClientContextProvider({children}: typeChildren){
     
   }
 
+  const updateTotal = () => {
+    const prices = cart.map(item => item.price )
+
+    const TOTAL = prices.reduce((prev, curr) => prev + curr ,0)
+
+    setTotal(TOTAL)
+  }
+
+  useMemo(() => updateTotal(), [cart.length])
+
   return (
     <ClientContext.Provider value={{
       cart,
-      setCart,
+      total,
 
       addProductToCard,
-      removeProductFromCard
+      removeProductFromCard,
+      checkout
     }}>
       {children}
     </ClientContext.Provider>

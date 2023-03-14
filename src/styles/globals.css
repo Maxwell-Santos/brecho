@@ -19,17 +19,17 @@
     @apply w-full max-w-4xl mx-auto mt-10
   }
   .container-form input, textarea {
-    @apply w-full border mb-4 mt-2 p-2 resize-none rounded-md
+    @apply w-full border mb-4 mt-2 p-2 resize-none rounded-md hover:ring-2 focus:ring-2 ring-offset-2 outline-none transition-all
   }
 
   #dashboard {
-    @apply bg-dashboard
+    @apply bg-dashboard text-dashboard
   }
   #product-card{
     @apply bg-product-card
   }
   .button-primary-style {
-    @apply p-3 px-9 flex-1 border-2 border-[#92B4EC] hover:bg-transparent hover:text-gray-800 transition-all duration-300 bg-btn-primary text-white text-lg uppercase
+    @apply p-3 px-9 flex-1 border-2 border-[#497174] hover:bg-transparent hover:text-gray-800 transition-all duration-300 bg-btn-primary text-white text-lg uppercase
   }
   .plus-less-btn{
     @apply bg-plus-less rounded-md px-4 flex items-center justify-center text-white

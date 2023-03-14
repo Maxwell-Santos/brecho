@@ -2,6 +2,7 @@ import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
 import { Inter } from 'next/font/google'
 import { SessionProvider } from 'next-auth/react'
+import { ClientContextProvider } from '@/contexts/clientContext'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -13,7 +14,6 @@ export default function App({
   return (
     <>
       <SessionProvider session={session}>
-
         <style jsx global>
           {`
           :root{
@@ -22,7 +22,11 @@ export default function App({
           
           `}
         </style>
-        <Component {...pageProps} />
+        
+        <ClientContextProvider>
+          <Component {...pageProps} />
+        </ClientContextProvider>
+
       </SessionProvider>
     </>
   )
