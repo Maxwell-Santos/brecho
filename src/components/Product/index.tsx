@@ -1,4 +1,4 @@
-import ProductProps from "@/interfaces/ProductProps"
+import ProductProps from "@/interfaces/ProductStockProps"
 import Link from "next/link"
 
 export function Product({ name, description, price, quant, _id }: ProductProps) {

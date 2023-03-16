@@ -9,10 +9,21 @@ export default function Login() {
   const router = useRouter()
 
   useEffect(() => {
-    if (status == 'authenticated') router.push("/products")
-    // else router.push("/form-product")
+    fetch("/api/createUser", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json"
+      },
+      body: JSON.stringify({
+        email: data?.user?.email,
+        cart: []
+      })
+    })
+    // .then(data => console.log(data))
+    // .then(response => console.log(response))
   }, [status])
-  console.log(data)
+
+  if (status == 'authenticated') router.push("/products")
 
   return (
     <>

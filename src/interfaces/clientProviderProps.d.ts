@@ -1,10 +1,11 @@
+import { CartProps } from '@/interfaces/cartProps';
 import ProductProps from "./ProductProps";
 
 export default interface clienteProps {
-  cart: ProductProps[];
+  cart: CartProps;
   total: number;
       
   addProductToCard: (newProduct) => void | boolean;
   removeProductFromCard: (productId: string) => void | string;
-  checkout: () => void;
+  checkout: (user) => void;
 }

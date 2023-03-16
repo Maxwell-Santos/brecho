@@ -27,7 +27,7 @@ export const getProduct = async (id: any) => {
 
   if (!database.connect()) return console.error("erro na conexão com o bd")
 
-  const productFounded = Product.findById(id)
+  const productFounded = await Product.findById(id)
   return await productFounded
 }
 

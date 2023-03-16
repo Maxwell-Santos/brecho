@@ -29,9 +29,9 @@
     @apply bg-product-card
   }
   .button-primary-style {
-    @apply p-3 px-9 flex-1 border-2 border-[#497174] hover:bg-transparent hover:text-gray-800 transition-all duration-300 bg-btn-primary text-white text-lg uppercase
+    @apply p-3 px-9 flex-1 border-2 border-[#497174] hover:bg-transparent hover:text-gray-800 transition-all duration-300 bg-btn-primary text-white text-base sm:text-lg uppercase
   }
   .plus-less-btn{
-    @apply bg-plus-less rounded-md px-4 flex items-center justify-center text-white
+    @apply bg-plus-less rounded-md px-4 py-2 sm:py-0 flex items-center justify-center text-white
   }
 }

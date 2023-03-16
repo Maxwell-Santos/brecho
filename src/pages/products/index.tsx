@@ -1,7 +1,7 @@
 import { Dashboard } from "@/components/Dashboard";
 import { Footer } from "@/components/Footer";
 import { Product } from "@/components/Product";
-import ProductProps from "@/interfaces/ProductProps";
+import ProductProps from "@/interfaces/ProductStockProps";
 import Head from "next/head";
 import { useMemo, useState } from "react";
 

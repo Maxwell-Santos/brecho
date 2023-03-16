@@ -1,7 +1,7 @@
-export default interface ProductProps{
+export default interface ProductToBuyProps{
   name: string,
   price: number,
   description: number,
-  quant: number,
+  quant: number, //estoque
   _id: string
 }

@@ -16,7 +16,9 @@ export function Dashboard() {
     }
     else return
   }
+  
 
+  console.log(session?.user)
   useMemo(() => {
     if (status == 'unauthenticated') router.push("/login")
   }, [session])
@@ -28,7 +30,7 @@ export function Dashboard() {
     <header id="dashboard" className="p-4 px-6 cursor-pointer z-50 text-white">
 
       <div className="flex items-center gap-4 relative">
-        <nav className="space-x-8 w-fit self-center">
+        <nav className="space-x-8 w-fit self-center hidden sm:block">
           <Link href={"/products"}>Produtos</Link>
           <Link href={"/form-product"}>Formulário</Link>
         </nav>
@@ -37,11 +39,11 @@ export function Dashboard() {
 
           <div className="mr-3">
             <h3
-              className="hover:text-title transition-all"
+              className="hover:text-title transition-all text-end"
               onClick={() => setOpenMoreInfo(!openMoreInfo)}
             >{session?.user?.name}</h3>
 
-            <div className="mr-2 relative">
+            <div className="relative">
 
               <button
                 onClick={() => setOpenBuys(!buys)}
