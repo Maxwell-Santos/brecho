@@ -7,5 +7,7 @@ export default interface clienteProps {
       
   addProductToCard: (newProduct) => void | boolean;
   removeProductFromCard: (productId: string) => void | string;
-  checkout: (user) => void;
+  updateQuantityProduct: (id: string, newQuantity: number) => void;
+  checkout: (user) => Promise;
+  cleanCart: () => void;
 }

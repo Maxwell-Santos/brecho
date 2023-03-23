@@ -11,6 +11,7 @@ module.exports = {
       colors: {
         title: "#EB6440",
         dashboard: "#497174",
+        price: "#497174"
       },
       backgroundColor: {
         primary: "#EFF5F5",

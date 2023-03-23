@@ -1,18 +1,19 @@
 import { Dashboard } from "@/components/Dashboard";
 import { Footer } from "@/components/Footer";
+import { Hero } from "@/components/Hero";
 import { Product } from "@/components/Product";
 import ProductProps from "@/interfaces/ProductStockProps";
 import Head from "next/head";
 import { useMemo, useState } from "react";
 
 export default function ProductsPage(props: any) {
-  const productsParsed: ProductProps[] = JSON.parse(props.products)
+  const productsParsed: ProductProps[] = JSON.parse(props?.products)
 
   //filtro de produtos
   const [query, setQuery] = useState("")
 
   const filterProduct = useMemo(() => {
-    return productsParsed.filter(product => {
+    return productsParsed?.filter(product => {
       return product.name.trim().toLowerCase().includes(query.toLowerCase())
     })
   }, [query])
@@ -23,17 +24,18 @@ export default function ProductsPage(props: any) {
         <title>Produtos</title>
       </Head>
       <Dashboard />
-        <input
-          className="border-b border-[#497174] mx-auto rounded-sm p-2 block mt-4 outline-none text-2xl uppercase font-extralight placeholder:lowercase placeholder:text-xl bg-transparent"
-          type="text"
-          name="search"
-          id="search"
-          value={query}
-          placeholder="ex: camisa"
-          spellCheck="false"
-          onChange={e => setQuery(e.target.value)}
-        />
-      <section className="p-5 grid gap-3 md:grid-cols-3 lg:grid-cols-4 place-content-center">
+      <Hero />
+      <input
+        className="border border-[#497174] mx-auto rounded-sm p-2 px-5 block mt-10 mb-5 outline-none text-2xl uppercase font-extralight placeholder:lowercase placeholder:text-xl bg-transparent w-full max-w-[700px]"
+        type="text"
+        name="search"
+        id="search"
+        value={query}
+        placeholder="ex: camisa"
+        spellCheck="false"
+        onChange={e => setQuery(e.target.value)}
+      />
+      <section className="grid gap-3 md:grid-cols-3 lg:grid-cols-4 place-content-center">
         {
           productsParsed ? (
             <>
@@ -51,7 +53,7 @@ export default function ProductsPage(props: any) {
                   ))
                 ) : (
                   <>
-                    <div className="w-full text-center">
+                    <div className="w-full min-h-[50vh] text-center">
                       <p>Não foi encontrado o seu produto</p>
                     </div>
                   </>

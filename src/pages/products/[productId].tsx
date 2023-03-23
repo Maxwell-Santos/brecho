@@ -15,14 +15,19 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json())
 export default function InfoProduct() {
   const { query } = useRouter()
   const { productId } = query
-  const { addProductToCard, cart, total }: clienteProps = useContext(ClientContext)
+  const { addProductToCard, cart, total, updateQuantityProduct }: clienteProps = useContext(ClientContext)
 
   const [productStatus, setProductStatus] = useState(false)
+
+  let ancora = 0
 
   function checkStatusProduct() {
     // se já existir no carrinho a função retorna falso, logo 
     const status = addProductToCard(productToBuy)
-    if (!status) setProductStatus(true)
+    if (!status) {
+      setProductStatus(true)
+      ancora = quantity
+    }
   }
 
   const [quantity, setQuantity] = useState(1)
@@ -46,8 +51,16 @@ export default function InfoProduct() {
     }
   }
 
+  
+  useMemo(() => {
+    // se existir o produto no carrinho e mudou a quantidade para comprar
+    if(quantity != ancora){
+      updateQuantityProduct(product?._id, quantity)
+    }
+    
+  }, [quantity])
+  
   useEffect(() => searchID(), [product])
-
   useMemo(() => searchID(), [total])
 
   if (error) return <div>Não foi possível carregar o produto</div>
@@ -83,10 +96,13 @@ export default function InfoProduct() {
 
           <span className="block my-2 font-bold">Estoque: {product.quant}</span>
 
+          <span className="font-semibold text-xl">Preço: </span>
+          <span className="font-semibold text-xl text-price">R$ {product.price}</span>
+
           <div className="flex flex-wrap items-center gap-6 mt-9">
 
             <div className="flex items-center justify-between w-2/3 sm:w-[120px]">
-              <button className="plus-less-btn sm:w-full w-fit" onClick={() => setQuantity(prev => prev != 1 ? prev - 1 : prev)}>-</button>
+              <button className={`plus-less-btn ${quantity == 1 && "bg-plus-less/60 cursor-not-allowed"} sm:w-full w-fit`} onClick={() => setQuantity(prev => prev != 1 ? prev - 1 : prev)}>-</button>
 
               <span className="px-3">{quantity}</span>
 

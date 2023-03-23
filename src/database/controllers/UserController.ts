@@ -37,8 +37,6 @@ export const setNewBuy = async (user: UserProps, newCart: CartProps) => {
   await database.connect()
   if (!database.connect()) return console.log("erro na conexão com o bd")
 
-  console.log(user, newCart)
-
   const userBD = await User.findOne({email: `${user.email}`})
 
   const findUser = await User.findOneAndUpdate(

@@ -19,8 +19,6 @@ export default function Login() {
         cart: []
       })
     })
-    // .then(data => console.log(data))
-    // .then(response => console.log(response))
   }, [status])
 
   if (status == 'authenticated') router.push("/products")
