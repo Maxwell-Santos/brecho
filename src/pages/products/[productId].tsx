@@ -10,12 +10,17 @@ import clienteProps from "@/interfaces/clientProviderProps"
 import ProductProps from "@/interfaces/ProductStockProps"
 import ProductToBuyProps from "@/interfaces/ProductToBuyProps"
 
+import { Splide, SplideSlide, Options } from '@splidejs/react-splide';
+import '@splidejs/react-splide/css';
+
+
+
 const fetcher = (url: string) => fetch(url).then((res) => res.json())
 
 export default function InfoProduct() {
   const { query } = useRouter()
   const { productId } = query
-  const { addProductToCard, cart, total, updateQuantityProduct }: clienteProps = useContext(ClientContext)
+  const { addProductToCart, cart, total, updateQuantityProduct }: clienteProps = useContext(ClientContext)
 
   const [productStatus, setProductStatus] = useState(false)
 
@@ -23,7 +28,7 @@ export default function InfoProduct() {
 
   function checkStatusProduct() {
     // se já existir no carrinho a função retorna falso, logo 
-    const status = addProductToCard(productToBuy)
+    const status = addProductToCart(productToBuy)
     if (!status) {
       setProductStatus(true)
       ancora = quantity
@@ -51,15 +56,27 @@ export default function InfoProduct() {
     }
   }
 
-  
+  const price = Intl.NumberFormat('pt-br', {
+    style: 'currency',
+    currency: 'BRL'
+  })
+
+  const optionsSlide: Options = {
+    perPage: 1,
+    arrows: true,
+    pagination: true,
+    type: 'fade',
+    fixedHeight: 500
+  }
+
   useMemo(() => {
     // se existir o produto no carrinho e mudou a quantidade para comprar
-    if(quantity != ancora){
+    if (quantity != ancora) {
       updateQuantityProduct(product?._id, quantity)
     }
-    
+
   }, [quantity])
-  
+
   useEffect(() => searchID(), [product])
   useMemo(() => searchID(), [total])
 
@@ -83,21 +100,36 @@ export default function InfoProduct() {
 
         </Link>
 
-        <div className="bg-gray-200 flex-1 h-[500px] rounded-lg grid place-items-center">
-          image
-        </div>
+        <Splide 
+        options={optionsSlide}
+        className="bg-gray-200 flex-1 h-[500px]"
+        >
+          <SplideSlide>
+            <img src="/bg-login.jpg" alt="" />
+          </SplideSlide>
+          <SplideSlide>
+            <img src="https://images.unsplash.com/photo-1679654596859-99991e9c1257?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80" alt="" />
+          </SplideSlide>
+          <SplideSlide>
+            <img src="/bg-login.jpg" alt="" />
+          </SplideSlide>
+          <SplideSlide>
+            <img src="https://images.unsplash.com/photo-1679654596859-99991e9c1257?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80" alt="" />
+          </SplideSlide>
+
+        </Splide>
 
         <div id="content" className="flex-1">
           <h1 className="text-[2.52rem] leading-[calc(2.52rem+10px)] uppercase font-bold text-title mb-4">{product?.name}</h1>
 
-          <p className="mb-10">
+          <p className="mb-10 leading-7">
             {product.description} Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt ab corporis reprehenderit vitae tempora, sint dignissimos magnam sequi sed cupiditate laudantium dolorem animi saepe itaque. Dolor minus vero impedit odit.
           </p>
 
           <span className="block my-2 font-bold">Estoque: {product.quant}</span>
 
           <span className="font-semibold text-xl">Preço: </span>
-          <span className="font-semibold text-xl text-price">R$ {product.price}</span>
+          <span className="font-semibold text-xl text-price">{price.format(product.price)}</span>
 
           <div className="flex flex-wrap items-center gap-6 mt-9">
 

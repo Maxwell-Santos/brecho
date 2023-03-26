@@ -6,8 +6,8 @@ export const getProducts = async () => {
   await database.connect()
 
   if (!database.connect()) return console.error("erro na conexão com o bd")
-
   const products = await Product.find()
+  
   return products
 }
 

@@ -17,6 +17,7 @@ module.exports = {
         primary: "#EFF5F5",
         dashboard: "#EFF5F5",
         "plus-less": "#EB6440",
+        "history-item": "#EB6440",
         "product-card": "#FFFFFF",
         "btn-primary": "#497174",
       }

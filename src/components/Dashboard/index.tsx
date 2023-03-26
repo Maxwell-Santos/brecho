@@ -25,16 +25,18 @@ export function Dashboard() {
     if (status == 'unauthenticated') router.push("/login")
   }, [session])
 
+  
   const [openMoreInfo, setOpenMoreInfo] = useState(false)
   const [buys, setOpenBuys] = useState(false)
-
+  
   return (
     <header id="dashboard" className="mb-5 cursor-pointer z-50 text-white">
 
       <div className="flex items-center gap-4 relative">
         <nav className="space-x-8 w-fit self-center hidden sm:block">
-          <Link href={"/products"}>Produtos</Link>
-          <Link href={"/form-product"}>Formulário</Link>
+          <Link className="hover:text-title" href={"/products"}>Produtos</Link>
+          <Link className="hover:text-title" href="/history">Compras recentes</Link>
+          <Link className="hover:text-title" href={"/form-product"}>Formulário</Link>
         </nav>
 
         <div className="flex items-center ml-auto">
@@ -91,7 +93,6 @@ export function Dashboard() {
             {
               openMoreInfo && (
                 <div className="flex flex-col">
-                  <Link href="/history">Compras recentes</Link>
                   <button
                     onClick={() => {
                       logoutUser()

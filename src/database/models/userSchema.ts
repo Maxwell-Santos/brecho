@@ -1,9 +1,10 @@
 import { model, models, Schema } from "mongoose";
 
 const UserSchema = new Schema({
-  email: {type: String, required: true},
-  pass: {type: String, required: false},
-  cart: {type: Array, required: false}
+  email: {type: String},
+  pass: {type: String},
+  cart: {type: Array},
+  favorites: {type: Array}
 })
 
 //caso esse schema ja existir

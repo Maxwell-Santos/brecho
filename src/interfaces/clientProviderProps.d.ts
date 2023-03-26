@@ -1,12 +1,18 @@
+import ProductToBuyProps from '@/interfaces/ProductToBuyProps';
 import { CartProps } from '@/interfaces/cartProps';
 import ProductProps from "./ProductProps";
 
 export default interface clienteProps {
   cart: CartProps;
   total: number;
+  favorites: ProductToBuyProps[];
       
-  addProductToCard: (newProduct) => void | boolean;
-  removeProductFromCard: (productId: string) => void | string;
+  addProductToCart: (newProduct) => void | boolean;
+  removeProductFromCart: (productId: string) => void | string;
+
+  addProductFavorite: (productId: string) => void | string;
+  removeProductFavorite: (productId: string) => void;
+
   updateQuantityProduct: (id: string, newQuantity: number) => void;
   checkout: (user) => Promise;
   cleanCart: () => void;

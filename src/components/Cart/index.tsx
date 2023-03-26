@@ -2,11 +2,21 @@ import { ClientContext } from "@/contexts/clientContext";
 import clienteProps from "@/interfaces/clientProviderProps";
 import ProductProps from "@/interfaces/ProductToBuyProps";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 import { useContext } from "react";
 
 interface CartProps {
   open?: any;
 }
+
+interface CartItemsProps {
+  name: string;
+  price: number;
+  image?: string;
+  id: string;
+  quantity: number;
+}
+
 export function Cart({ open }: CartProps) {
   const { cart, total, checkout, cleanCart }: clienteProps = useContext(ClientContext)
   const { data: session } = useSession()
@@ -17,6 +27,11 @@ export function Cart({ open }: CartProps) {
       else console.log(data)
     })
   }
+
+  const priceF = Intl.NumberFormat('pt-br', {
+    style: 'currency',
+    currency: 'BRL'
+  })
 
   return (
     <div className="fixed right-6 top-24 pt-8 border-t bg-white p-4 min-w-[300px] shadow-md rounded-lg text-gray-800 z-50">
@@ -33,17 +48,17 @@ export function Cart({ open }: CartProps) {
       {
         cart?.items.length > 0 ? (
           <>
-            <ul>
+            <ul className="overflow-auto max-h-[300px]">
               {
                 cart?.items.map((item: ProductProps) => (
-                  <div key={item._id}>
+                  <li key={item._id}>
                     <CartItems name={item?.name} price={item?.price} id={item?._id} quantity={item?.quantity} />
-                  </div>
+                  </li>
                 ))
               }
             </ul>
-            <div className="py-2 text-end">
-              <span className="font-semibold uppercase text-sm">Total:</span> R$ {total.toFixed(2)}
+            <div className="py-4 text-end">
+              <span className="font-semibold uppercase text-sm">Total:</span> {priceF.format(total)}
             </div>
 
             <div className="flex gap-4">
@@ -72,58 +87,52 @@ export function Cart({ open }: CartProps) {
 
           </>
         ) : (
-          <div>Carrinho vazio</div>
+          <Link
+            href="/products"
+            className="bg-btn-primary text-gray-200 p-3 block w-full mt-2 text-center"
+          >Comprar agora</Link>
         )
       }
     </div>
   )
 }
 
-interface CartItemsProps {
-  name: string;
-  price: number;
-  image?: string;
-  id: string;
-  quantity: number;
-}
+function CartItems({ image, name, price, id, quantity }: CartItemsProps) {
 
-function CartItems({
-  image,
-  name,
-  price,
-  id,
-  quantity
-}: CartItemsProps) {
-
-  const { removeProductFromCard }: clienteProps = useContext(ClientContext)
+  const { removeProductFromCart }: clienteProps = useContext(ClientContext)
 
   return (
-    <li className="w-full flex items-center gap-4 border-b p-2 mb-3">
-      <div className="w-9 h-9 bg-gray-200 rounded-sm mr-3">
-        {image}
-      </div>
+    <div className="w-full flex items-center gap-4 border-b p-2 mb-3">
+      <Link 
+      href={`/products/${id}`}
+      className="flex items-center p-2"
+      >
+        <div className="w-9 h-9 bg-gray-200 rounded-sm mr-3">
+          {image}
+        </div>
 
-      <div className="flex flex-col">
-        <span id="name_product" className="text-sm leading-5 font-semibold uppercase">
-          {name}
-        </span>
-        <span className="text-sm">
-          R$ {price}
-        </span>
-      </div>
+        <div className="flex flex-col">
+          <span id="name_product" className="text-sm leading-5 font-semibold uppercase">
+            {name}
+          </span>
+          <span className="text-sm">
+            R$ {price}
+          </span>
+        </div>
+      </Link>
 
       <div className="ml-auto flex items-center">
 
         <span className="text-gray-600 mr-3">{quantity}x</span>
         <button
           className="ml-auto"
-          onClick={() => removeProductFromCard(id)}
+          onClick={() => removeProductFromCart(id)}
         >
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-red-700">
             <path fillRule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm3 10.5a.75.75 0 000-1.5H9a.75.75 0 000 1.5h6z" clipRule="evenodd" />
           </svg>
         </button>
       </div>
-    </li>
+    </div>
   )
 }

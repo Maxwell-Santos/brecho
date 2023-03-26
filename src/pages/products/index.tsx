@@ -13,9 +13,9 @@ export default function ProductsPage(props: any) {
   const [query, setQuery] = useState("")
 
   const filterProduct = useMemo(() => {
-    return productsParsed?.filter(product => {
-      return product.name.trim().toLowerCase().includes(query.toLowerCase())
-    })
+      return productsParsed?.filter(product => {
+        return product.name.trim().toLowerCase().includes(query.toLowerCase())
+      })
   }, [query])
 
   return (

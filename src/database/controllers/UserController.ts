@@ -1,4 +1,4 @@
-import CartProps from '@/interfaces/cartProps';
+import CartProps from '@/interfaces/CartProps';
 import ProductProps from '@/interfaces/ProductStockProps';
 import User from "../models/userSchema"
 import database from "../database"
@@ -6,7 +6,8 @@ import database from "../database"
 interface UserProps {
   email: string,
   pass?: string,
-  cart: { date: string, items: ProductProps[] }[]
+  cart: { date: string, items: ProductProps[] }[],
+  favorites: []
 }
 
 //create
@@ -14,20 +15,20 @@ export const setNewUser = async (queryUser: UserProps) => {
   await database.connect()
   if (!database.connect()) return console.log("erro na conexão com o bd")
 
-  const statusUser = await User.findOne({email:`${queryUser.email}`})
-  .then((response) => {
-    // o response pode vir null ou com um objeto do usuário
-    if(response == null){
-      const newUser = new User(queryUser)
-      return newUser.save()
-    }
-    else {
-      return response
-    }
-  })
-  .catch((error) => {
-    console.error(error)
-  })
+  const statusUser = await User.findOne({ email: `${queryUser.email}` })
+    .then((response) => {
+      // o response pode vir null ou com um objeto do usuário
+      if (response == null) {
+        const newUser = new User(queryUser)
+        return newUser.save()
+      }
+      else {
+        return response
+      }
+    })
+    .catch((error) => {
+      console.error(error)
+    })
 
   return await statusUser
 }
@@ -37,16 +38,27 @@ export const setNewBuy = async (user: UserProps, newCart: CartProps) => {
   await database.connect()
   if (!database.connect()) return console.log("erro na conexão com o bd")
 
-  const userBD = await User.findOne({email: `${user.email}`})
+  const userBD = await User.findOne({ email: `${user.email}` })
 
   const findUser = await User.findOneAndUpdate(
-    {email: `${user.email}`},
-    {cart: [...userBD.cart, newCart]},
+    { email: `${user.email}` },
+    { cart: [...userBD.cart, newCart] },
 
-    {new: true}
+    { new: true }
   )
 
   return await findUser
+}
+
+export const getUser = async (userEmail: string) => {
+  await database.connect()
+  if (!database.connect()) return console.log("erro na conexão com o bd")
+
+  const userData = await User.findOne({email: `${userEmail}`})
+
+  console.log(userData)
+  
+  return await userData
 }
 
 database.disconnect()

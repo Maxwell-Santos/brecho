@@ -1,10 +1,20 @@
+import { ClientContext } from "@/contexts/clientContext"
+import clienteProps from "@/interfaces/clientProviderProps"
 import ProductProps from "@/interfaces/ProductStockProps"
 import Link from "next/link"
+import { useContext } from "react"
 import { Actions } from "./Actions"
 
 export function Product({ name, description, price, quant, _id }: ProductProps) {
 
   const productId = _id
+  const { favorites }: clienteProps = useContext(ClientContext)
+
+  // const isFavorite = favorites.some(favoriteProduct => favoriteProduct._id == productId)
+  const priceF = Intl.NumberFormat('pt-br', {
+    style: 'currency',
+    currency: 'BRL'
+  })
 
   return (
     <div
@@ -12,7 +22,7 @@ export function Product({ name, description, price, quant, _id }: ProductProps) 
       className="m-3 flex flex-col relative group overflow-hidden"
     >
 
-      <Actions />
+      {/* <Actions statusFavorite={isFavorite} productId={productId}/> */}
 
       <Link
         href="/products/[productId]"
@@ -25,7 +35,7 @@ export function Product({ name, description, price, quant, _id }: ProductProps) 
 
       <div className="bg-primary flex justify-between pt-2">
         <h3 className="text-title font-semibold uppercase text-center">{name}</h3>
-        <span className="text-md text">{price}</span>
+        <span className="text-md text">{priceF.format(price)}</span>
       </div>
 
     </div>

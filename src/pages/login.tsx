@@ -9,6 +9,7 @@ export default function Login() {
   const router = useRouter()
 
   useEffect(() => {
+
     fetch("/api/createUser", {
       method: "POST",
       headers: {
@@ -19,7 +20,7 @@ export default function Login() {
         cart: []
       })
     })
-  }, [status])
+  }, [data?.user])
 
   if (status == 'authenticated') router.push("/products")
 
