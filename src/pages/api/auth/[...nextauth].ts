@@ -1,9 +1,9 @@
 import NextAuth, { NextAuthOptions } from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 import CredentialsProvider from "next-auth/providers/credentials"
-import User from "@/database/models/userSchema"
 
 export const authOptions: NextAuthOptions = {
+  
   // Configure one or more authentication providers
   providers: [
     GoogleProvider({

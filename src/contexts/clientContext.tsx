@@ -1,7 +1,9 @@
+import { setNewFavoriteProduct } from "@/database/controllers/favoriteProductController";
 import CartProps from "@/interfaces/CartProps";
 import ProductToBuyProps from "@/interfaces/ProductStockProps";
 import ProductProps from "@/interfaces/ProductToBuyProps";
-import { createContext, ReactNode, useMemo, useState } from "react";
+import { useSession } from "next-auth/react";
+import { createContext, ReactNode, useEffect, useMemo, useState } from "react";
 
 export const ClientContext = createContext<any>({})
 
@@ -20,23 +22,8 @@ export function ClientContextProvider({ children }: typeChildren) {
     }
   )
 
-  const [favorites, setFavorites] = useState<ProductToBuyProps[]>([])
+  const { data: session } = useSession()
 
-  const removeProductFromCart = (productId: string) => {
-    if (cart?.items.length == 0) return "Carrinho vazio"
-
-    cart?.items.map((product, index) => {
-      if (product?._id == productId) {
-        const remove = confirm(`Tirar ${product?.name} do carrinho ?`)
-
-        if (remove) {
-          cart?.items.splice(index, 1)
-          updateTotal()
-        }
-        else return
-      }
-    })
-  }
 
   const addProductToCart = (newProduct: ProductProps) => {
     //verdadeiro ou falso, para saber se o produto ja existe
@@ -55,25 +42,80 @@ export function ClientContextProvider({ children }: typeChildren) {
     else return false
   }
 
-  const addProductFavorite = (productId: string) => {
-    const productHasAddToFavorite = favorites.some(item => item?._id === productId)
+  const removeProductFromCart = (productId: string) => {
+    if (cart?.items.length == 0) return "Carrinho vazio"
 
-    if (!productHasAddToFavorite) {
-      fetch(`/api/getSingleProduct/${productId}`)
-      .then(response => response.json())
-      .then(product => setFavorites(prev => [...prev, product]))
-      .catch(err => console.error(err))
+    cart?.items.map((product, index) => {
+      if (product?._id == productId) {
+        const remove = confirm(`Tirar ${product?.name} do carrinho ?`)
+
+        if (remove) {
+          cart?.items.splice(index, 1)
+          updateTotal()
+        }
+        else return
+      }
+    })
+  }
+
+  const [favorites, setFavorites] = useState<ProductToBuyProps[]>([])
+
+  const productIsFavorite = (productId: string) => {
+    return favorites.some(item => item._id == productId)
+  }
+
+  const addProductFavorite = async (productId: string) => {
+
+    const email = session?.user?.email
+
+    try {
+      // se o produto ainda não for favorito, ele adiciona
+      const response = await fetch(`/api/getSingleProduct/${productId}`)
+      const product = await response.json()
+
+      fetch("/api/favoriteActions/addProduct", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json"
+        },
+        body: JSON.stringify({
+          email: email,
+          product
+        })
+      })
+      
+    } catch (error) {
+      console.error(error)
     }
+
     return productId
   }
 
-  const removeProductFavorite = (productId: string) => {
+  const removeProductFavorite = async (productId: string) => {
+
+    const email = session?.user?.email
+
+    try {
+      const response = await fetch(`/api/getSingleProduct/${productId}`)
+      const { _id } = await response.json()
+
+      fetch("/api/favoriteActions/removeProduct", {
+        method: "DELETE",
+        headers: {
+          "content-type": "application/json"
+        },
+        body: JSON.stringify({
+          email: email,
+          productId: _id
+        })
+      })
+    } catch (error) {
+      console.error(error)
+    }
 
     favorites.map((product, index) => {
-      if (product?._id == productId) {
-        favorites.splice(index, 1)
-      }
-      else return
+
+      if (product._id == productId) favorites.splice(index, 1)
     })
   }
 
@@ -149,15 +191,6 @@ export function ClientContextProvider({ children }: typeChildren) {
 
   useMemo(() => updateTotal(), [cart.items.length])
 
-  useMemo(() => {
-    fetch("/api/getFavoriteProducts")
-    .then(response => response.json())
-    .then(data => setFavorites(data))
-
-    console.log(favorites)
-
-  }, [favorites.length])
-  
   return (
     <ClientContext.Provider value={{
       cart,
@@ -166,6 +199,7 @@ export function ClientContextProvider({ children }: typeChildren) {
 
       addProductToCart,
       removeProductFromCart,
+      productIsFavorite,
 
       removeProductFavorite,
       addProductFavorite,

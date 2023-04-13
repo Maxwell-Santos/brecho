@@ -1,14 +1,7 @@
 import CartProps from '@/interfaces/CartProps';
-import ProductProps from '@/interfaces/ProductStockProps';
 import User from "../models/userSchema"
 import database from "../database"
-
-interface UserProps {
-  email: string,
-  pass?: string,
-  cart: { date: string, items: ProductProps[] }[],
-  favorites: []
-}
+import UserProps from '@/interfaces/UserProps';
 
 //create
 export const setNewUser = async (queryUser: UserProps) => {
@@ -55,8 +48,6 @@ export const getUser = async (userEmail: string) => {
   if (!database.connect()) return console.log("erro na conexão com o bd")
 
   const userData = await User.findOne({email: `${userEmail}`})
-
-  console.log(userData)
   
   return await userData
 }

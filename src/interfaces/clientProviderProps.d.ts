@@ -9,9 +9,10 @@ export default interface clienteProps {
       
   addProductToCart: (newProduct) => void | boolean;
   removeProductFromCart: (productId: string) => void | string;
-
+  
   addProductFavorite: (productId: string) => void | string;
   removeProductFavorite: (productId: string) => void;
+  productIsFavorite: (productId: string) => boolean;
 
   updateQuantityProduct: (id: string, newQuantity: number) => void;
   checkout: (user) => Promise;

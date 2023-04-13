@@ -1,13 +1,15 @@
+import { deleteFavoriteProduct } from '@/database/controllers/favoriteProductController'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 // Adicionar novo produto para a lista de produtos
 
 //DELETE
 export default async function handler(req: NextApiRequest, res: NextApiResponse){
-  const productData = req.body
+  const { email, productId } = req.body
 
   try {
-    res.status(200).json({message: "success"})
+    const productToDelete = await deleteFavoriteProduct(email, productId)
+    res.status(200).json({message: "success", productToDelete})
 
   } catch (error) {
     console.error(error)

@@ -1,31 +1,37 @@
 import { ClientContext } from "@/contexts/clientContext"
 import clienteProps from "@/interfaces/clientProviderProps"
-import { useContext } from "react"
+import { useContext, useState } from "react"
 
 interface ActionsProps {
-  statusFavorite: boolean;
-  productId: string
+  productId: string;
 }
 
-export function Actions({statusFavorite, productId}: ActionsProps) {
+export function Actions({ productId }: ActionsProps) {
 
-  const {addProductFavorite, removeProductFavorite}: clienteProps = useContext(ClientContext)
+  const { addProductFavorite, removeProductFavorite, productIsFavorite }: clienteProps = useContext(ClientContext)
 
-  function setFavorite(){
+  const [toggleFavoriteColor, setToggleFavoriteColor] = useState(productIsFavorite(productId))
 
-    if(statusFavorite == true){
-      removeProductFavorite(productId)
-    } else {
+  function setFavorite() {
+    if (!productIsFavorite(productId)) {
       addProductFavorite(productId)
+      setToggleFavoriteColor(true)
+    }
+    else {
+      const saber = confirm("Produto já adicionado, deseja retirar da lista ?")
+      if(saber) {
+        removeProductFavorite(productId)
+        setToggleFavoriteColor(false)
+      }
     }
   }
-  
+
   return (
 
     <aside className="flex translate-x-full group-hover:translate-x-0 transition-all duration-500 flex-col gap-3 absolute right-0 top-0 p-4 z-50">
 
       <button
-        className={`aspect-square ${statusFavorite ? 'bg-red-400 hover:bg-red-400' : 'bg-white/50 hover:bg-red-300 backdrop-blur-sm'} transition-all grid place-items-center rounded-md p-1 cursor-pointer`}
+        className={`aspect-square ${toggleFavoriteColor ? 'bg-red-500 hover:bg-red-400' : 'bg-white/50 hover:bg-red-300 backdrop-blur-sm'} transition-all grid place-items-center rounded-md p-1 cursor-pointer`}
         onClick={() => setFavorite()}
       >
 

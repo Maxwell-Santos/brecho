@@ -41,9 +41,9 @@ export default function ProductsPage(props: any) {
             <>
               {
                 filterProduct.length != 0 ? (
-                  filterProduct.map((product: ProductProps, index: number) => (
+                  filterProduct.map((product: ProductProps) => (
                     <Product
-                      key={index}
+                      key={product._id + '-main'}
                       name={product.name}
                       price={product.price}
                       description={product.description}
