@@ -1,11 +1,9 @@
 import { Dashboard } from "@/components/Dashboard"
 import { HistoryProduct } from "@/components/HistoryProduct"
-import { ClientContext } from "@/contexts/clientContext"
-import clienteProps from "@/interfaces/clientProviderProps"
 import ProductProps from "@/interfaces/ProductToBuyProps"
 import { useSession } from "next-auth/react"
 import Head from "next/head"
-import { useContext } from "react"
+import Link from "next/link"
 import useSwr from 'swr'
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json())
@@ -23,13 +21,14 @@ interface UserDataProps {
 export default function History() {
 
   const { data: session } = useSession()
-  const { }: clienteProps = useContext(ClientContext)
-
   const userEmail = session?.user?.email
-
   const { data, error, isLoading } = useSwr(`/api/getUserHistory/${userEmail}`, fetcher)
-
   const userData: UserDataProps = data
+
+  const priceF = Intl.NumberFormat('pt-br', {
+    style: 'currency',
+    currency: 'BRL'
+  })
 
   const history = userData?.cart?.map(buy => (
     <div className="mb-10 flex flex-col p-5 w-full">
@@ -44,7 +43,7 @@ export default function History() {
           />
         ))
       }
-      <span className="py-2 uppercase">TOTAL da compra: {buy.total}</span>
+      <span className="py-2 uppercase">TOTAL da compra: {priceF.format(buy.total)}</span>
     </div>
   ))
 
@@ -54,15 +53,25 @@ export default function History() {
 
   return (
     <>
-    <Head><title>Histórico</title></Head>
+      <Head><title>Histórico</title></Head>
 
       <Dashboard />
-      <h1 className="text-3xl text-title font-bold my-7 uppercase">
-        Histórico
-      </h1>
-      <div className="max-w-[900px] mx-auto flex flex-col-reverse">
-        {history}
-      </div>
+      <section>
+
+        <h1 className="text-3xl text-title font-bold my-7 uppercase">
+          Histórico
+        </h1>
+        <div className="max-w-[900px] mx-auto flex flex-col-reverse">
+          {history}
+
+        </div>
+        <Link
+          href="/products"
+          className="bg-btn-primary block mx-auto w-fit text-white p-3 px-7 hover:-translate-y-1 transition-all text-center"
+        >
+          Comprar agora
+        </Link>
+      </section>
     </>
   )
 }

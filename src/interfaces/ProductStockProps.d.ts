@@ -3,5 +3,6 @@ export default interface ProductToBuyProps{
   price: number,
   description: number,
   quant: number, //estoque
-  _id: string
+  _id: string,
+  isFavorite?: boolean
 }

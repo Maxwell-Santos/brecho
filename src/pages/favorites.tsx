@@ -17,9 +17,7 @@ export default function Favorites() {
 
   const { data, error, isLoading } = useSwr(`/api/getFavoriteProducts/${email}`, fetcher)
 
-  console.log(data)
-
-  if (error) return <div>Não foi possível carregar o produto</div>
+  if (error) return <div>Não foi possível carregar os produtos favoritos</div>
   if (isLoading) return <div>Carregando...</div>
   if (!data) return null
 
@@ -35,21 +33,35 @@ export default function Favorites() {
 
         <h1 className="text-3xl text-title font-bold my-7 uppercase">Meus favoritos</h1>
 
-        <div className="flex justify-center">
-          {data ? (
-            data.map((product: ProductProps) => (
-              <Product
-                key={product._id + '-favorites'}
-                name={product.name}
-                price={product.price}
-                description={product.description}
-                quant={product.quant}
-                _id={product._id}
-              />
-            ))
-          ) : (<span>produtos não foram carregados</span>)
-          }
-        </div>
+        {data.length > 0 ? (
+
+          <div className="flex justify-center">
+
+            {
+              data.map((product: ProductProps) => (
+                <Product
+                  key={product._id + '-favorites'}
+                  name={product.name}
+                  price={product.price}
+                  description={product.description}
+                  quant={product.quant}
+                  _id={product._id}
+                />
+              ))
+            }
+          </div>
+        ) : (
+          <div className="text-center mt-32">
+            <span>Você ainda não adicionou nenhum favorito</span>
+            <Link
+              href="/products"
+              className="bg-btn-primary block mx-auto w-fit text-white p-3 px-7 hover:-translate-y-1 transition-all text-center mt-10"
+            >
+              Adicionar
+            </Link>
+          </div>
+        )
+        }
       </section>
     </>
   )

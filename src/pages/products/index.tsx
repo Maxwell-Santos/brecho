@@ -1,22 +1,27 @@
-import { Dashboard } from "@/components/Dashboard";
-import { Footer } from "@/components/Footer";
-import { Hero } from "@/components/Hero";
-import { Product } from "@/components/Product";
-import ProductProps from "@/interfaces/ProductStockProps";
-import Head from "next/head";
-import { useMemo, useState } from "react";
+import { Dashboard } from "@/components/Dashboard"
+import { Footer } from "@/components/Footer"
+import { Hero } from "@/components/Hero"
+import { Product } from "@/components/Product"
+import { ClientContext } from "@/contexts/clientContext"
+import clienteProps from "@/interfaces/clientProviderProps"
+import ProductProps from "@/interfaces/ProductStockProps"
+import Head from "next/head"
+import { useContext, useMemo, useState } from "react"
 
 export default function ProductsPage(props: any) {
+  const [query, setQuery] = useState("")
   const productsParsed: ProductProps[] = JSON.parse(props?.products)
 
   //filtro de produtos
-  const [query, setQuery] = useState("")
-
   const filterProduct = useMemo(() => {
-      return productsParsed?.filter(product => {
-        return product.name.trim().toLowerCase().includes(query.toLowerCase())
-      })
+    return productsParsed?.filter(product => {
+      return product.name.trim().toLowerCase().includes(query.toLowerCase())
+    })
   }, [query])
+
+  const { getFavorites }: clienteProps = useContext(ClientContext)
+
+  // if (props?.products) getFavorites()
 
   return (
     <>

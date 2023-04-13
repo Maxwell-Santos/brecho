@@ -1,9 +1,7 @@
-import { setNewFavoriteProduct } from "@/database/controllers/favoriteProductController";
 import CartProps from "@/interfaces/CartProps";
-import ProductToBuyProps from "@/interfaces/ProductStockProps";
 import ProductProps from "@/interfaces/ProductToBuyProps";
 import { useSession } from "next-auth/react";
-import { createContext, ReactNode, useEffect, useMemo, useState } from "react";
+import { createContext, ReactNode, useMemo, useState } from "react";
 
 export const ClientContext = createContext<any>({})
 
@@ -23,7 +21,7 @@ export function ClientContextProvider({ children }: typeChildren) {
   )
 
   const { data: session } = useSession()
-
+  const email = session?.user?.email
 
   const addProductToCart = (newProduct: ProductProps) => {
     //verdadeiro ou falso, para saber se o produto ja existe
@@ -58,15 +56,14 @@ export function ClientContextProvider({ children }: typeChildren) {
     })
   }
 
-  const [favorites, setFavorites] = useState<ProductToBuyProps[]>([])
+  const [favorites, setFavorites] = useState([])
 
   const productIsFavorite = (productId: string) => {
-    return favorites.some(item => item._id == productId)
+    favorites.some(favoriteProductId => favoriteProductId == productId)
+    console.log(favorites)
   }
 
   const addProductFavorite = async (productId: string) => {
-
-    const email = session?.user?.email
 
     try {
       // se o produto ainda não for favorito, ele adiciona
@@ -83,7 +80,7 @@ export function ClientContextProvider({ children }: typeChildren) {
           product
         })
       })
-      
+
     } catch (error) {
       console.error(error)
     }
@@ -92,8 +89,6 @@ export function ClientContextProvider({ children }: typeChildren) {
   }
 
   const removeProductFavorite = async (productId: string) => {
-
-    const email = session?.user?.email
 
     try {
       const response = await fetch(`/api/getSingleProduct/${productId}`)
@@ -112,13 +107,14 @@ export function ClientContextProvider({ children }: typeChildren) {
     } catch (error) {
       console.error(error)
     }
-
-    favorites.map((product, index) => {
-
-      if (product._id == productId) favorites.splice(index, 1)
-    })
   }
 
+  const getFavorites = () => {
+    fetch(`/api/getFavoriteProducts/justId/${email}`)
+      .then(response => response.json())
+      .then(data => setFavorites(data))
+      .catch(error => console.error(error))
+  }
   const updateQuantityProduct = (id: string, newQuantity: number) => {
     const productToUpdate = cart.items.find((product) => product._id == id)
 
@@ -136,7 +132,7 @@ export function ClientContextProvider({ children }: typeChildren) {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ user, cart, favorites })
+      body: JSON.stringify({ user, cart })
     })
       .then(data => data.json())
       .then(response => {
@@ -200,6 +196,7 @@ export function ClientContextProvider({ children }: typeChildren) {
       addProductToCart,
       removeProductFromCart,
       productIsFavorite,
+      getFavorites,
 
       removeProductFavorite,
       addProductFavorite,

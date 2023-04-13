@@ -7,18 +7,28 @@ import { getUser } from './UserController'
 export const getFavoriteProducts = async (email: string) => {
   await database.connect()
 
-  if (!database.connect()) return console.error("erro na conexão com o bd")
+  if (!database.connect()) errorMessage()
 
   const user = await getUser(email)
 
   return await user.favorites
 }
 
+//read
+export const getFavoriteProductsIds = async (email: string) => {
+  await database.connect()
+
+  if (!database.connect()) errorMessage()
+
+  const user = await getUser(email)
+  return await user.favorites.map((item: ProductToBuyProps) => item._id)   
+}
+
 //create
 export const setNewFavoriteProduct = async (email: string, product: ProductToBuyProps ) => {
   await database.connect()
 
-  if (!database.connect()) return console.error("erro na conexão com o bd")
+  if (!database.connect()) errorMessage()
 
   const userBD = await User.findOne({ email: `${email}` })
 
@@ -35,7 +45,7 @@ export const setNewFavoriteProduct = async (email: string, product: ProductToBuy
 export const deleteFavoriteProduct = async (email: string, productId: string) => {
   await database.connect()
 
-  if (!database.connect()) return console.error("erro na conexão com o bd")
+  if (!database.connect()) errorMessage()
 
   const userBD = await User.findOneAndUpdate(
     { email: email },
@@ -43,6 +53,10 @@ export const deleteFavoriteProduct = async (email: string, productId: string) =>
   )
 
   return await userBD.favorites
+}
+
+function errorMessage () {
+  return console.error("erro na conexão com o bd")
 }
 
 database.disconnect()

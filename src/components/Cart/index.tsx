@@ -89,7 +89,7 @@ export function Cart({ open }: CartProps) {
         ) : (
           <Link
             href="/products"
-            className="bg-btn-primary text-gray-200 p-3 block w-full mt-2 text-center"
+            className="bg-btn-primary text-white p-3 block w-full mt-2 text-center"
           >Comprar agora</Link>
         )
       }

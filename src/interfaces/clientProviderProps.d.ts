@@ -13,6 +13,7 @@ export default interface clienteProps {
   addProductFavorite: (productId: string) => void | string;
   removeProductFavorite: (productId: string) => void;
   productIsFavorite: (productId: string) => boolean;
+  getFavorites: () => void;
 
   updateQuantityProduct: (id: string, newQuantity: number) => void;
   checkout: (user) => Promise;

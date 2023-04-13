@@ -21,7 +21,7 @@ export function Product({ name, description, price, quant, _id }: ProductProps) 
         as={`/products/${productId}`}
       >
         <div className="w-full h-[360px] max-w-[350px] bg-gray-200">
-          <img src="https://images.unsplash.com/photo-1565462905097-5e701c31dcfb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=688&q=80" alt="" />
+          <img src="https://img.ltwebstatic.com/images3_pi/2022/09/16/16633243588318a4c7001d21e52484b56606ca2a88_thumbnail_600x.webp" alt="" />
         </div>
       </Link>
 
