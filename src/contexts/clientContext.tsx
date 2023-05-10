@@ -59,8 +59,8 @@ export function ClientContextProvider({ children }: typeChildren) {
   const [favorites, setFavorites] = useState([])
 
   const productIsFavorite = (productId: string) => {
-    favorites.some(favoriteProductId => favoriteProductId == productId)
-    console.log(favorites)
+    getFavorites()
+    return favorites.some(favoriteProductId => favoriteProductId == productId)
   }
 
   const addProductFavorite = async (productId: string) => {

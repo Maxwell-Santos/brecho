@@ -21,6 +21,10 @@ export const getFavoriteProductsIds = async (email: string) => {
   if (!database.connect()) errorMessage()
 
   const user = await getUser(email)
+  if (user.favorites.length == 0){
+    return ["sem id"]
+  }
+  
   return await user.favorites.map((item: ProductToBuyProps) => item._id)   
 }
 

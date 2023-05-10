@@ -1,6 +1,7 @@
 import { Dashboard } from "@/components/Dashboard"
 import { HistoryProduct } from "@/components/HistoryProduct"
 import ProductProps from "@/interfaces/ProductToBuyProps"
+import { moneyFormat } from "@/utils/MoneyFormat"
 import { useSession } from "next-auth/react"
 import Head from "next/head"
 import Link from "next/link"
@@ -25,11 +26,6 @@ export default function History() {
   const { data, error, isLoading } = useSwr(`/api/getUserHistory/${userEmail}`, fetcher)
   const userData: UserDataProps = data
 
-  const priceF = Intl.NumberFormat('pt-br', {
-    style: 'currency',
-    currency: 'BRL'
-  })
-
   const history = userData?.cart?.map(buy => (
     <div className="mb-10 flex flex-col p-5 w-full">
       <span className="text-gray-500 text-lg -translate-x-5 -translate-y-5 font-bold">{buy.date}</span>
@@ -43,7 +39,7 @@ export default function History() {
           />
         ))
       }
-      <span className="py-2 uppercase">TOTAL da compra: {priceF.format(buy.total)}</span>
+      <span className="py-2 uppercase">TOTAL da compra: {moneyFormat(buy.total)}</span>
     </div>
   ))
 

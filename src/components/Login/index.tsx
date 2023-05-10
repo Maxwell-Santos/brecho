@@ -5,7 +5,7 @@ export function LoginForm() {
 
   return (
     <a
-    href={'/api/auth/signin'}
+      href="/api/auth/signin"
       className="p-3 pr-4 relative rounded-full flex items-center justify-between shadow-lg hover:shadow-sm transition-all duration-300 bg-white"
       onClick={(e) => {
         e.preventDefault()
@@ -21,7 +21,6 @@ export function LoginForm() {
         />
       </div>
       <span>entrar com o Google</span>
-
     </a>
   )
 }

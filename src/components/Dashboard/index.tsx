@@ -1,9 +1,9 @@
+import { useContext, useMemo, useState } from "react"
+import { useSession, signOut } from "next-auth/react"
+import { useRouter } from "next/router"
+import Link from "next/link"
 import { ClientContext } from "@/contexts/clientContext"
 import clienteProps from "@/interfaces/clientProviderProps"
-import { useSession, signOut } from "next-auth/react"
-import Link from "next/link"
-import { useRouter } from "next/router"
-import { useContext, useMemo, useState } from "react"
 import { Cart } from "../Cart"
 import { Favorites } from "../Favorites"
 
@@ -15,9 +15,7 @@ export function Dashboard() {
   const logoutUser = async () => {
     const decision = confirm("Tem certeza que deseja sair?")
 
-    if (decision) {
-      await signOut()
-    }
+    if (decision) await signOut()
     else return
   }
 
@@ -25,10 +23,10 @@ export function Dashboard() {
     if (status == 'unauthenticated') router.push("/login")
   }, [session])
 
-  
+
   const [openMoreInfo, setOpenMoreInfo] = useState(false)
   const [buys, setOpenBuys] = useState(false)
-  
+
   return (
     <header id="dashboard" className="mb-5 cursor-pointer z-50 text-white">
 
@@ -39,7 +37,7 @@ export function Dashboard() {
           <Link className="hover:text-title" href={"/form-product"}>Formulário</Link>
         </nav>
 
-        <div className="flex items-center ml-auto">
+        <div className="flex items-center ml-auto relative">
 
           <Favorites />
 
@@ -66,9 +64,7 @@ export function Dashboard() {
                 </span>
 
               </button>
-              {
-                buys && <Cart open={setOpenBuys} />
-              }
+              {buys && <Cart open={setOpenBuys} />}
             </div>
           </div>
 
@@ -92,16 +88,12 @@ export function Dashboard() {
           <span>
             {
               openMoreInfo && (
-                <div className="flex flex-col">
-                  <button
-                    onClick={() => {
-                      logoutUser()
-                    }}
-                    className="bg-red-600 hover:bg-red-700 transition-all px-2 text-white"
-                  >
-                    Sair
-                  </button>
-                </div>
+                <button
+                  onClick={() => logoutUser()}
+                  className="border-2 rounded-md bg-red-300 border-red-600 hover:bg-red-700 transition-all px-2 text-white absolute -bottom-10 right-0 z-50 shadow-md"
+                >
+                  Sair
+                </button>
               )
             }
           </span>

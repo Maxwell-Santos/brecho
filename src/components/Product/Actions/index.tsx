@@ -1,6 +1,6 @@
 import { ClientContext } from "@/contexts/clientContext"
 import clienteProps from "@/interfaces/clientProviderProps"
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 
 interface ActionsProps {
   productId: string;
@@ -10,27 +10,24 @@ export function Actions({ productId }: ActionsProps) {
 
   const { addProductFavorite, removeProductFavorite, productIsFavorite, favorites }: clienteProps = useContext(ClientContext)
 
+
   const [toggleFavoriteColor, setToggleFavoriteColor] = useState(false)
-
-  // function setFavorite() {
-  //   if (!productIsFavorite(productId)) {
-  //     addProductFavorite(productId)
-  //     setToggleFavoriteColor(true)
-  //   }
-  //   else {
-  //     const saber = confirm("Produto já adicionado, deseja retirar da lista ?")
-  //     if(saber) {
-  //       removeProductFavorite(productId)
-  //       setToggleFavoriteColor(false)
-  //     }
-  //   }
-  // }
-
+  
+  
   function setFavorite() {
-    console.log(productIsFavorite(productId))
-
-    console.log(favorites)
+    if (!productIsFavorite(productId)) {
+      addProductFavorite(productId)
+      setToggleFavoriteColor(true)
+    }
+    else {
+      const saber = confirm("Produto já adicionado, deseja retirar da lista ?")
+      if(saber) {
+        removeProductFavorite(productId)
+        setToggleFavoriteColor(false)
+      }
+    }
   }
+
   return (
 
     <aside className="flex translate-x-full group-hover:translate-x-0 transition-all duration-500 flex-col gap-3 absolute right-0 top-0 p-4 z-50">

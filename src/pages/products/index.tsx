@@ -40,7 +40,7 @@ export default function ProductsPage(props: any) {
         spellCheck="false"
         onChange={e => setQuery(e.target.value)}
       />
-      <section className="grid gap-3 md:grid-cols-3 lg:grid-cols-4 place-content-center">
+      <section className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 place-items-stretch">
         {
           productsParsed ? (
             <>

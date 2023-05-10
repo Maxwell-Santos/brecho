@@ -12,6 +12,7 @@ import ProductToBuyProps from "@/interfaces/ProductToBuyProps"
 
 import { Splide, SplideSlide, Options } from '@splidejs/react-splide';
 import '@splidejs/react-splide/css';
+import { moneyFormat } from "@/utils/MoneyFormat"
 
 
 
@@ -129,7 +130,7 @@ export default function InfoProduct() {
           <span className="block my-2 font-bold">Estoque: {product.quant}</span>
 
           <span className="font-semibold text-xl">Preço: </span>
-          <span className="font-semibold text-xl text-price">{price.format(product.price)}</span>
+          <span className="font-semibold text-xl text-price">{moneyFormat(product.price)}</span>
 
           <div className="flex flex-wrap items-center gap-6 mt-9">
 

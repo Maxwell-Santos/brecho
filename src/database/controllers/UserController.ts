@@ -1,4 +1,4 @@
-import ProductProps from '@/interfaces/ProductToBuyProps';
+import ProductProps from '@/interfaces/ProductToBuyProps'
 import CartProps from '@/interfaces/CartProps'
 import User from "../models/userSchema"
 import Product from "../models/productSchema"
