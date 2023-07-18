@@ -11,24 +11,24 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET
     }),
 
-    CredentialsProvider({
-      name: "Credenciais",
-      credentials: {
-        email: { label: "Email", type: "text", placeholder: "user123"},
-        password: { label: "Senha", type: "password" },
-      },
+    // CredentialsProvider({
+    //   name: "Credenciais",
+    //   credentials: {
+    //     email: { label: "Email", type: "text", placeholder: "user123"},
+    //     password: { label: "Senha", type: "password" },
+    //   },
       
-      async authorize(credentials, req) {
-        const user = { id: "1", email: "ste@gmail.com", password: "123", name: "Maxwell ADM"}
-        const user2 = { id: "2", email: "jose@gmail.com", password: "123", name: "Jose"}
+    //   async authorize(credentials, req) {
+    //     const user = { id: "1", email: "ste@gmail.com", password: "123", name: "Maxwell ADM"}
+    //     const user2 = { id: "2", email: "jose@gmail.com", password: "123", name: "Jose"}
   
-        if ( credentials?.email == user2.email && credentials?.password == user2.password ) {
-          // Any object returned will be saved in `user` property of the JWT
-          return user2
+    //     if ( credentials?.email == user2.email && credentials?.password == user2.password ) {
+    //       // Any object returned will be saved in `user` property of the JWT
+    //       return user2
           
-        } else return null
-      }
-    })
+    //     } else return null
+    //   }
+    // })
   ],
 
   theme: {

@@ -4,12 +4,11 @@ import Image from "next/image"
 export function LoginForm() {
 
   return (
-    <a
-      href="/api/auth/signin"
+    <span
       className="p-3 pr-4 relative rounded-full flex items-center justify-between shadow-lg hover:shadow-sm transition-all duration-300 bg-white"
       onClick={(e) => {
         e.preventDefault()
-        signIn()
+        signIn('google')
       }}
     >
       <div className="relative w-10 h-10 mr-3">
@@ -21,6 +20,6 @@ export function LoginForm() {
         />
       </div>
       <span>entrar com o Google</span>
-    </a>
+    </span>
   )
 }

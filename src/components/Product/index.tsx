@@ -26,8 +26,8 @@ export function Product({ name, description, price, quant, _id }: ProductProps) 
       </Link>
 
       <div className="bg-primary flex justify-between pt-2">
-        <h3 className="text-title font-semibold uppercase text-center">{name}</h3>
-        <span className="text-md text">{moneyFormat(price)}</span>
+        <h3 className="text-title font-semibold uppercase text-start truncate w-full max-w-[12rem]" title={name}>{name}</h3>
+        <span className="text-md text" title={moneyFormat(price)}>{moneyFormat(price)}</span>
       </div>
     </div>
   )
